@@ -25,10 +25,10 @@ class AuthController extends Controller
     function login(Request $request) {
         $validated = $request->validate([
             'email' => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|string'
         ]);
         $user = User::where('email', $validated['email'])->first();
-        if (!$user || Hash::check($validated['password'], $user->password)) {
+        if (!$user || ! Hash::check($validated['password'], $user->password)) {
             return response()->json(['message' => 'Credenciales incorrectas'], 401);
         } else {
             $token = $user->createToken('api_token')->plainTextToken;
@@ -40,7 +40,9 @@ class AuthController extends Controller
     }
 
     function logOut(Request $request) {
-        
+        $user = $request->user();
+        $user->tokens()->delete();
+        return response()->json(['message' => 'Sesión cerrada correctamente']);
     }
 
     function getMe(Request $request) {

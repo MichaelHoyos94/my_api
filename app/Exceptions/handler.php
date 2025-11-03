@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         // 👇 Si la petición es de la API, siempre responde en JSON
-        if ($request->is($request->expectsJson())) {
+        if ($request->expectsJson()) {
 
             // Error de validación
             if ($exception instanceof ValidationException) {

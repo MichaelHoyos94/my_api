@@ -6,7 +6,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/signUp', [AuthController::class, 'signUp']);
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+Route::get('/my-profile', [AuthController::class, 'getMe'])->middleware('auth:sanctum');
+Route::get('/logout', [AuthController::class, 'logOut'])->middleware('auth:sanctum');
