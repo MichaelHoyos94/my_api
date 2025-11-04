@@ -6,6 +6,9 @@ use Illuminate\Http\JsonResponse;
 
 trait ApiResponse
 {
+    /**
+     * Funcion para responder desde la api ok.
+     */
     protected function success($data, $message = '', $code = 200) : JsonResponse
     {
         return response()->json([
@@ -15,6 +18,9 @@ trait ApiResponse
         ], $code);
     }
 
+    /**
+     * Funcion para responder desde la api con error.
+     */
     protected function error($message, $code = 400) : JsonResponse 
     {
         return response()->json([
