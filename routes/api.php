@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,3 +16,7 @@ Route::get('/logout', [AuthController::class, 'logOut'])->middleware('auth:sanct
 //Users routes
 Route::put('/update-me', [UserController::class, 'update'])->middleware('auth:sanctum');
 Route::delete('/delete-me', [UserController::class, 'delete'])->middleware('auth:sanctum'); // El middleware le pone a $request el user.
+
+Route::prefix('v1')->group(function () {
+    Route::apiResource('posts', PostController::class);
+});
