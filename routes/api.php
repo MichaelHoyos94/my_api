@@ -18,5 +18,8 @@ Route::put('/update-me', [UserController::class, 'update'])->middleware('auth:sa
 Route::delete('/delete-me', [UserController::class, 'delete'])->middleware('auth:sanctum'); // El middleware le pone a $request el user.
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('posts', PostController::class);
+    Route::get('posts', [PostController::class, 'index']);
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('/post', [PostController::class, 'store']);
+    });
 });
