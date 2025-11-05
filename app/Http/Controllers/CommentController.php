@@ -2,32 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\services\CommentService;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
+    use ApiResponse;
+    public function __construct(private CommentService $commentService) { }
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $post_id)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        $user_id = $request->user();
+        $validated = $request->validate([
+            'comment' => 'string|required'
+        ]);
+        $validated['post_id'] = $post_id;
+        $validated['user_id'] = $user_id;
+        $comment = $this->commentService->create($validated);
+        return $this->success($comment, 'comment created', 200);
     }
 
     /**
@@ -35,7 +30,11 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'comment' => 'string|required'
+        ]);
+        $data = $this->commentService->update($id, $validated);
+        return $this->success($data, 'comment updated', 200);
     }
 
     /**
@@ -43,6 +42,7 @@ class CommentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->commentService->delete($id);
+        return $this->success([], 'comment deleted', 200);
     }
 }

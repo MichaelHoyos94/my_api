@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -24,5 +25,8 @@ Route::prefix('v1')->group(function () {
         Route::post('/post', [PostController::class, 'store']);
         Route::put('/post', [PostController::class, 'update']);
         Route::delete('/post/{id}', [PostController::class, 'destroy']);
+        Route::post('/comment/{post_id}', [CommentController::class, 'store']);
+        Route::put('/comment/{id}', [CommentController::class, 'store']);
+        Route::delete('/comment/{id}', [CommentController::class, 'store']);
     });
 });
