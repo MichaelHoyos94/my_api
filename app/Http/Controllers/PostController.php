@@ -43,7 +43,8 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = $this->postService->findById($id);
+        return $this->success($post, 'post info', 200);
     }
 
     /**
@@ -51,7 +52,12 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'text' => 'string|required',
+            'photo' => 'nullable|sring'
+        ]);
+        $postUpdated = $this->postService->updateById($id, $validated);
+        return $this->success($postUpdated, 'post updated', 200);
     }
 
     /**
@@ -59,6 +65,7 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $postDeletedId = $this->postService->deleteById($id);
+        return $this->success([], `Post id: {$postDeletedId} deleted`, 200);
     }
 }

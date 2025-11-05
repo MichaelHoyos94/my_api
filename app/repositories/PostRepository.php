@@ -36,7 +36,7 @@ class PostRepository
      */
     public function updateById($id, array $data) {
         $post = Post::findOrFail($id);
-        $post->update($data);
+        return $post->update($data);
     }
     /**
      * Delete a post by his id.
